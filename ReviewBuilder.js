@@ -28,7 +28,21 @@ class ReviewBuilder {
   }
 
   buildReviewsPromises() {
-    // FIXME
+    return Promise.all([
+      readFile("./data/products.json", "utf8"),
+      readFile("./data/reviews.json", "utf8"),
+      readFile("./data/users.json", "utf8"),
+    ]).then((files) => {
+      let outContainer = [];
+      let reviewObject = {};
+      files.forEach((file) => {
+        outContainer.push(JSON.parse(file));
+      });
+      reviewObject.products = outContainer[0];
+      reviewObject.reviews = outContainer[1];
+      reviewObject.users = outContainer[2];
+      return produceResult(reviewObject);
+    });
   }
 
   async buildReviewsAsyncAwait() {
