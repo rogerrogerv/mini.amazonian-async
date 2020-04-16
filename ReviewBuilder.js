@@ -32,21 +32,40 @@ class ReviewBuilder {
       readFile("./data/products.json", "utf8"),
       readFile("./data/reviews.json", "utf8"),
       readFile("./data/users.json", "utf8"),
-    ]).then((files) => {
-      let outContainer = [];
+    ]).then((dataArray) => {
+      let dataContainer = [];
       let reviewObject = {};
-      files.forEach((file) => {
-        outContainer.push(JSON.parse(file));
+      dataArray.forEach((dataObject) => {
+        dataContainer.push(JSON.parse(dataObject));
       });
-      reviewObject.products = outContainer[0];
-      reviewObject.reviews = outContainer[1];
-      reviewObject.users = outContainer[2];
+
+      reviewObject.products = dataContainer[0];
+      reviewObject.reviews = dataContainer[1];
+      reviewObject.users = dataContainer[2];
+
       return produceResult(reviewObject);
     });
   }
 
   async buildReviewsAsyncAwait() {
-    // FIXME
+    let dataArray = await Promise.all([
+      readFile("./data/products.json", "utf8"),
+      readFile("./data/reviews.json", "utf8"),
+      readFile("./data/users.json", "utf8"),
+    ]);
+
+    let dataContainer = [];
+    let reviewObject = {};
+
+    dataArray.forEach((dataObject) => {
+      dataContainer.push(JSON.parse(dataObject));
+    });
+
+    reviewObject.products = dataContainer[0];
+    reviewObject.reviews = dataContainer[1];
+    reviewObject.users = dataContainer[2];
+
+    return produceResult(reviewObject);
   }
 }
 
